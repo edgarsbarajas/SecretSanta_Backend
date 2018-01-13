@@ -26,18 +26,19 @@ class Family < ApplicationRecord
     participants = {}
 
     self.persons.each do |person|
-      participants[person.phone_number] = person.name
+      participants["+1#{person.phone_number}"] = {name: person.name, password: person.password}
     end
 
-    friends = {
-      '+19255863672' => 'Edgar Barajas'
-    }
+    # Example:
+    # friends = {
+    #   '+19255863672' => 'Edgar Barajas'
+    # }
 
-    friends.each do |key, value|
+    participants.each do |key, value|
       client.messages.create(
         from: from,
         to: key,
-        body: "Hey #{value}, Monkey party at 6PM. Bring Bananas!"
+        body: "Hey #{value[:name]}, welcome to Secret Santa!\nVisit http://secret-santa-plus.herokuapp.com/family/#{self.id} to reveal the person you'll be buying a gift for this year, and to fill out your gift suggestions form!\n\nYour password is: #{value[:password]}\n\nHappy Holidays! :)"
       )
     end
   end
