@@ -11,7 +11,7 @@ class PeopleController < ApplicationController
       end
 
       new_family.assignGiftees()
-      # new_family.sendMessages()
+      new_family.sendMessages()
 
       render json: {family_id: new_family.id}
     else
